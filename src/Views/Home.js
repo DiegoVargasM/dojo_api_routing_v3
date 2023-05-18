@@ -33,7 +33,8 @@ export const Home = () => {
 			<form action="">
 				<select name="" id="">
 					{resources.length > 0 && resources.map((value, index) => (
-						<option key={index} value={value}>{value}</option>
+						/* Capitalizamos la primera letra del desplegable, para que sea más estetico */
+						<option key={index} value={value}>{value.charAt(0).toUpperCase() + value.slice(1)}</option>
 					))}
 				</select>
 			</form>

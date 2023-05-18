@@ -6,6 +6,8 @@ export const Home = () => {
 	// 1. Creamos una variable de estado array para
 	// guardar los recursos de la API
 	const [resources, setResources] = useState([]);
+	//6. Creamos estado para guardar el ID del input
+	const [inputId, setinputId] = useState("");
 
 	// 2. Definimos una funcion de flecha asincrona para
 	// traer los datos de la API y asignarlos a nuestra variable
@@ -28,15 +30,29 @@ export const Home = () => {
 		getSwapi();
 	});
 
+	//6. Definimos la funcion onchange del input
+	const onChange = (e) => {
+		setinputId(e.target.value)
+	}
+
 	return (
 		<div>
 			<form action="">
-				<select name="" id="">
-					{resources.length > 0 && resources.map((value, index) => (
-						/* Capitalizamos la primera letra del desplegable, para que sea más estetico */
-						<option key={index} value={value}>{value.charAt(0).toUpperCase() + value.slice(1)}</option>
-					))}
-				</select>
+				<div>
+					<label htmlFor="dropdown">Search for:</label>
+					<select id="dropdown">
+						{resources.length > 0 && resources.map((value, index) => (
+							/* 4.Capitalizamos la primera letra del desplegable, para que sea más estetico */
+							<option key={index} value={value}>{value.charAt(0).toUpperCase() + value.slice(1)}</option>
+						))}
+					</select>
+				</div>
+				<div>
+					{/* 5. Creamos input para guardar el id necesario para consultar la API*/}
+					<label htmlFor="idInput">Id:</label>
+					<input type="text" id="idInput" onChange={onChange} />
+				</div>
+
 			</form>
 		</div>
 	)

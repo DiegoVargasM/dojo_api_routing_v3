@@ -45,12 +45,14 @@ export const Home = () => {
 		e.preventDefault()
 		// 8.1 Creamos una variable con el formato de la URL que necesitamos
 		const url = `https://swapi.dev/api/${selectedOption}/${inputId}`
+		console.log(url)
 		try {
 			const response = await axios.get(url)
 			setData(response.data)
 		} catch (error) {
 			setData(null)
 		}
+		console.log(data)
 	}
 
 	return (
@@ -58,7 +60,7 @@ export const Home = () => {
 			<form onSubmit={handleSubmit}>
 				<div>
 					<label htmlFor="dropdown">Search for:</label>
-					<select id="dropdown" onChange={handleOptionChange}>
+					<select id="dropdown" value={selectedOption} onChange={handleOptionChange}>
 						{resources.length > 0 && resources.map((value, index) => (
 							/* 4.Capitalizamos la primera letra del desplegable, para que sea más estetico */
 							<option key={index} value={value}>{value.charAt(0).toUpperCase() + value.slice(1)}</option>
@@ -68,7 +70,7 @@ export const Home = () => {
 				<div>
 					{/* 5. Creamos input para guardar el id necesario para consultar la API*/}
 					<label htmlFor="idInput">Id:</label>
-					<input type="number" id="idInput" onChange={handleInputChange} />
+					<input type="text" id="idInput" onChange={handleInputChange} />
 				</div>
 				<button>Send Request</button>
 			</form>

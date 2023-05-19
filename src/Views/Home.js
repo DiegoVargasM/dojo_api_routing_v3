@@ -1,22 +1,23 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { getAllResources } from "../services/getswapi-service";
+import axios from "axios";
 
 export const Home = () => {
-	// 1. Creamos una variable de estado array para
-	// guardar los recursos de la API
+	// 1. Creamos una variable de estado array para guardar los recursos de la API
 	const [resources, setResources] = useState([]);
-	//6. Creamos estado para guardar el ID del input
+	// 6. Creamos estado para guardar el ID del input
 	const [inputId, setinputId] = useState("");
+	// 7. Creamos estado para guardar el valor de la opcion seleccionada
+	const [selectedOption, setSelectedOption] = useState("");
 
-	// 2. Definimos una funcion de flecha asincrona para
-	// traer los datos de la API y asignarlos a nuestra variable
+
+	// 2. Definimos una async arrow func traer datos de la API y guardarlos
 	const getSwapi = async () => {
 		try {
 			const swapiData = await getAllResources();
 			console.log("copydata", swapiData);
-			// el método '.keys' de los objetos, nos permiten extraer solo
-			// la key del par key:value de un objeto
+			// el método '.keys' permite extraer la key del "key:value" de un Obj.
 			setResources(Object.keys(swapiData.data));
 		} catch (error) {
 			console.log(error);
@@ -30,11 +31,14 @@ export const Home = () => {
 		getSwapi();
 	}, []);
 
-	//7. Definimos la funcion onchange para actualizar el valor del input
-	const onChange = (e) => {
+	// 6.1 Definimos la funcion para manejar los cambios en el valor del input
+	const handleInputChange = (e) => {
 		setinputId(e.target.value)
 	}
-
+	// 7.1 Definimos la funcion para manejar los cambios en el valor de la opcion seleccionada
+	const handleOptionChange = (e) => {
+		setSelectedOption(e.target.value)
+	}
 
 
 	return (
@@ -42,7 +46,7 @@ export const Home = () => {
 			<form onSubmit={(e) => e.preventDefault()}>
 				<div>
 					<label htmlFor="dropdown">Search for:</label>
-					<select id="dropdown">
+					<select id="dropdown" onChange={handleOptionChange}>
 						{resources.length > 0 && resources.map((value, index) => (
 							/* 4.Capitalizamos la primera letra del desplegable, para que sea más estetico */
 							<option key={index} value={value}>{value.charAt(0).toUpperCase() + value.slice(1)}</option>
@@ -52,7 +56,7 @@ export const Home = () => {
 				<div>
 					{/* 5. Creamos input para guardar el id necesario para consultar la API*/}
 					<label htmlFor="idInput">Id:</label>
-					<input type="number" id="idInput" onChange={onChange} />
+					<input type="number" id="idInput" onChange={handleInputChange} />
 				</div>
 				<button>Send Request</button>
 			</form>

@@ -16,7 +16,6 @@ export const Home = () => {
 	const getSwapi = async () => {
 		try {
 			const swapiData = await getAllResources();
-			console.log("copydata", swapiData);
 			// el método '.keys' permite extraer la key del "key:value" de un Obj.
 			setResources(Object.keys(swapiData.data));
 		} catch (error) {
@@ -52,7 +51,6 @@ export const Home = () => {
 		} catch (error) {
 			setData(null)
 		}
-		console.log(data)
 	}
 
 	return (
@@ -74,6 +72,19 @@ export const Home = () => {
 				</div>
 				<button>Send Request</button>
 			</form>
+
+			{/* 9. If data exists take the first for attributes and display in UI  */}
+			{data && (
+				<div>
+					{Object.entries(data).slice(0, 4).map(([key, value]) => (
+						<div key={key}>
+							<p>
+								<strong>{key}:</strong> {value}
+							</p>
+						</div>
+					))}
+				</div>
+			)}
 		</div>
 	)
 };

@@ -12,6 +12,12 @@ export const Home = () => {
 	const [selectedOption, setSelectedOption] = useState("");
 	// 8.3 Creamos el estado para guardar la data devuelta por nuestras API dinamicas
 	const [data, setData] = useState(null)
+	// 10 Crear estado de error cuando la solicitud falla
+	const [error, setError] = useState(false)
+
+
+
+
 	// 2. Definimos una funcion asincrona para traer datos de la API y guardarlos
 	const getSwapi = async () => {
 		try {
@@ -48,8 +54,12 @@ export const Home = () => {
 		try {
 			const response = await axios.get(url)
 			setData(response.data)
+			//No hubo error
+			setError(false)
 		} catch (error) {
 			setData(null)
+			//Hubo error
+			setError(true)
 		}
 	}
 
@@ -74,7 +84,7 @@ export const Home = () => {
 			</form>
 
 			{/* 9. If data exists take the first for attributes and display in UI  */}
-			{data && (
+			{data && !error && (
 				<div>
 					{Object.entries(data).slice(0, 4).map(([key, value]) => (
 						<div key={key}>
@@ -83,6 +93,13 @@ export const Home = () => {
 							</p>
 						</div>
 					))}
+				</div>
+			)}
+
+			{/* 10.1 Si el error es verdadero mostrar mensaje de error */}
+			{error && (
+				<div>
+					<p>Estos no son los droides que estás buscando.</p>
 				</div>
 			)}
 		</div>

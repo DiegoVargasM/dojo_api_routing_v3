@@ -10,9 +10,9 @@ export const Home = () => {
 	const [inputId, setinputId] = useState("");
 	// 7. Creamos estado para guardar el valor de la opcion seleccionada
 	const [selectedOption, setSelectedOption] = useState("");
-
-
-	// 2. Definimos una async arrow func traer datos de la API y guardarlos
+	// 8.3 Creamos el estado para guardar la data devuelta por nuestras API dinamicas
+	const [data, setData] = useState(null)
+	// 2. Definimos una funcion asincrona para traer datos de la API y guardarlos
 	const getSwapi = async () => {
 		try {
 			const swapiData = await getAllResources();
@@ -40,10 +40,22 @@ export const Home = () => {
 		setSelectedOption(e.target.value)
 	}
 
+	// 8. Definimos la funcion de envío de formulario como asíncnrona porque la usaremos para llamar una API
+	const handleSubmit = async (e) => {
+		e.preventDefault()
+		// 8.1 Creamos una variable con el formato de la URL que necesitamos
+		const url = `https://swapi.dev/api/${selectedOption}/${inputId}`
+		try {
+			const response = await axios.get(url)
+			setData(response.data)
+		} catch (error) {
+			setData(null)
+		}
+	}
 
 	return (
 		<div>
-			<form onSubmit={(e) => e.preventDefault()}>
+			<form onSubmit={handleSubmit}>
 				<div>
 					<label htmlFor="dropdown">Search for:</label>
 					<select id="dropdown" onChange={handleOptionChange}>

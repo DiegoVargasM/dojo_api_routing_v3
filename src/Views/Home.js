@@ -28,16 +28,18 @@ export const Home = () => {
 	// (por eso los [] a final)
 	useEffect(() => {
 		getSwapi();
-	});
+	}, []);
 
-	//6. Definimos la funcion onchange del input
+	//7. Definimos la funcion onchange para actualizar el valor del input
 	const onChange = (e) => {
 		setinputId(e.target.value)
 	}
 
+
+
 	return (
 		<div>
-			<form action="">
+			<form onSubmit={(e) => e.preventDefault()}>
 				<div>
 					<label htmlFor="dropdown">Search for:</label>
 					<select id="dropdown">
@@ -50,9 +52,9 @@ export const Home = () => {
 				<div>
 					{/* 5. Creamos input para guardar el id necesario para consultar la API*/}
 					<label htmlFor="idInput">Id:</label>
-					<input type="text" id="idInput" onChange={onChange} />
+					<input type="number" id="idInput" onChange={onChange} />
 				</div>
-
+				<button>Send Request</button>
 			</form>
 		</div>
 	)
